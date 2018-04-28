@@ -1,16 +1,25 @@
 var express =  require('express');
-var db = require('./queries');
 var app = express();
+var cors = require('cors')
+var bodyParser = require("body-parser");
+var db = require('./queries');
 const PORT = process.env.PORT || 5000
+
+app.use(cors({credentials: true, origin: true}))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 
 app.get('/', function (req, res){
     res.send('Hola Mundo desde NodeJS!');
-});
+}); 
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 app.get('/api/users', db.getAllUsers);
+app.post('/api/email_available', db.emailAvailable);
+
 
 /*
 const { Pool } = require('pg');
