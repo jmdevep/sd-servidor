@@ -105,7 +105,7 @@ function getAllUsers(req, res, next) {
             pass: '20f804c8'
           }
         }); 
-        var url = `http://localhost:8080/confirm-email/${token}`;
+        var url = `http://localhost:8080/user/confirm-email/${token}`;
         var mailOptions = {
           from: 'mvsolucionesinf@gmail.com',
           to: email,
