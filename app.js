@@ -2,7 +2,8 @@ var express =  require('express');
 var app = express();
 var cors = require('cors')
 var bodyParser = require("body-parser");
-var db = require('./queries');
+var user_api = require('./user_api');
+var category_api = require('./category_api');
 const PORT = process.env.PORT || 5000
 
 app.use(cors({credentials: true, origin: true}))
@@ -17,32 +18,16 @@ app.get('/', function (req, res){
 
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
-app.get('/api/users', db.getAllUsers);
-app.post('/api/email_available', db.emailAvailable);
+//User
+app.get('/api/users', user_api.getAllUsers);
+app.post('/api/email_available', user_api.emailAvailable);
+app.post('/api/register_user', user_api.registerUser);
+app.post('/api/send_verification_email', user_api.sendVerificationEmail)
+app.post('/api/confirm_email', user_api.confirmEmail)
 
-
-/*
-const { Pool } = require('pg');
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: true
-});
-
-app.get('/db', async (req, res) => {
-  try {
-    const client = await pool.connect()
-    const result = await client.query('SELECT * FROM users');
-    res.send(JSON.stringify(result));
-    client.release();
-  } catch (err) {
-    console.error(err);
-    res.send("Error " + err);
-  }
-});  
-
-app.get('/tasks', function (request, response) {
-  response.json({tasks: taskRepository.findAll()});
-}); */
-
-//https://vooban.com/en/tips-articles-geek-stuff/how-to-quickly-create-a-simple-rest-api-for-sql-server-database/
-//https://devcenter.heroku.com/articles/getting-started-with-nodejs#provision-a-database
+//Category
+app.get('/api/categories', category_api.getAllCategories);
+app.get('/api/get_category', category_api.getCategory);
+app.post('/api/add_category', category_api.addCategory);
+app.post('/api/update_category', category_api.updateCategory);
+app.post('/api/delete_category', category_api.deleteCategory);
