@@ -17,6 +17,7 @@ module.exports = {
   sendVerificationEmail: sendVerificationEmail,
   getUserToken: getUserToken,
   confirmEmail: confirmEmail,
+  validateUser: validateUser,
 };
 
 
@@ -187,27 +188,25 @@ function getAllUsers(req, res, next) {
     var password = req.body.password;
     console.log(req.body);
     db.one("SELECT * FROM users WHERE email like '" + email + "' AND password like '" + password +"';")
-        .then(user => { //USER FOUND - WRONG DATA
-            // user found;
+        .then(user => { //USER FOUND 
             res.status(200)
-          //  var user = {active: }
           .json({
             status: 'success',
             data: user,
             message: 1
           });             
         })
-        .catch(error => { //NOT FOUND - EMAIL AVAILABLE
+        .catch(error => { //NOT FOUND - WRONG LOGIN
             console.log(error); 
             res.status(200)
             .json({
               status: 'success',
-             // data: data,
               message: -1
             });
-            // error;    
+   
         });
   }  
+
  /*   db.one("select * from users where email like '$1'", email)
       .then(function (data) {
         res.status(200)

@@ -12,13 +12,13 @@ function addCategory(req, res, next) {
     var category = req.body; 
     console.log(category);
     db.one(`INSERT INTO category (name, description, active)
-     VALUES ($1, $2, 1) RETURNING id`, 
+     VALUES ($1, $2, 1) RETURNING category_id`, 
       [category.name, category.description])
         .then(data => {            
             res.status(200)
           .json({
             status: 'success',
-            id: data.id,
+            id: data.category_id,
             message: 1
           });
         })

@@ -19,15 +19,16 @@ app.get('/', function (req, res){
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 //User
-app.get('/api/users', user_api.getAllUsers);
-app.post('/api/email_available', user_api.emailAvailable);
-app.post('/api/register_user', user_api.registerUser);
-app.post('/api/send_verification_email', user_api.sendVerificationEmail)
-app.post('/api/confirm_email', user_api.confirmEmail)
+app.get('/api/user/get_users', user_api.getAllUsers);
+app.get('/api/user/validate_user', user_api.validateUser);
+app.post('/api/user/email_available', user_api.emailAvailable);
+app.post('/api/user/register_user', user_api.registerUser);
+app.post('/api/user/send_verification_email', user_api.sendVerificationEmail)
+app.post('/api/user/confirm_email', user_api.confirmEmail)
 
 //Category
-app.get('/api/categories', category_api.getAllCategories);
-app.get('/api/get_category', category_api.getCategory);
-app.post('/api/add_category', category_api.addCategory);
-app.post('/api/update_category', category_api.updateCategory);
-app.post('/api/delete_category', category_api.deleteCategory);
+app.get('/api/category/get_categories', category_api.getAllCategories);
+app.get('/api/category/get_category', category_api.getCategory);
+app.post('/api/category/add_category', category_api.addCategory);
+app.post('/api/category/update_category', category_api.updateCategory);
+app.post('/api/category/delete_category', category_api.deleteCategory);
