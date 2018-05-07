@@ -60,8 +60,8 @@ function addCategory(req, res, next) {
   }
 
   function deleteCategory(req, res, next) {
-    var categoryId = req.body; 
-    console.log(category);
+    var categoryId = req.body.categoryId; 
+    console.log(categoryId);
     db.one(`UPDATE category set active = 0 WHERE category_id = $1`, 
       [categoryId])
         .then(data => {            
