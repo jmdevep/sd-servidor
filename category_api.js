@@ -90,7 +90,7 @@ function addCategory(req, res, next) {
         res.status(200)
           .json({
             status: 'success',
-            data: data,
+            categories: data,
             message: 'Retrieved ALL categories'
           });
       })

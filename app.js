@@ -4,6 +4,7 @@ var cors = require('cors')
 var bodyParser = require("body-parser");
 var user_api = require('./user_api');
 var category_api = require('./category_api');
+var product_api = require('./product_api');
 const PORT = process.env.PORT || 5000
 
 app.use(cors({credentials: true, origin: true}))
@@ -32,3 +33,12 @@ app.get('/api/category/get_category', category_api.getCategory);
 app.post('/api/category/add_category', category_api.addCategory);
 app.post('/api/category/update_category', category_api.updateCategory);
 app.post('/api/category/delete_category', category_api.deleteCategory);
+
+//Product
+app.get('/api/product/get_products', product_api.getAllProducts);
+app.get('/api/product/get_product', product_api.getProduct);
+app.get('/api/product/get_products_by_category', product_api.getProductsByCategory);
+app.post('/api/product/add_product', product_api.addProduct);
+app.post('/api/product/update_product', product_api.updateProduct);
+app.post('/api/product/delete_product', product_api.deleteProduct);
+
