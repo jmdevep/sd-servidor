@@ -10,9 +10,10 @@ module.exports = {
 };
 
 function addProduct(req, res, next) {
-    var product = req.body; 
-    console.log(product);
+    var product = req.body.product; 
+    console.log(req.body);
     
+
     db.tx(async t => {
       const q1 = await db.one(`INSERT INTO item (name, description, requirements, active) VALUES ($1, $2, $3, 1) RETURNING item_id`, 
       [product.name, product.description, product.requirements]);
@@ -47,7 +48,7 @@ function addProduct(req, res, next) {
     var product = req.body; 
     console.log(product);
     db.one(`UPDATE item set name = '$1', description = '$2', requirements = '$3' WHERE item_id = $4`, 
-      [product.name, product.description, product.requirements, product.productId])
+      [product.name, product.description, product.requirements, product.product_id])
         .then(data => {            
             res.status(200)
           .json({
@@ -67,10 +68,10 @@ function addProduct(req, res, next) {
   } 
 
   function deleteProduct(req, res, next) {
-    var productId = req.body.productId; 
+    var product_id = req.body.product_id; 
     console.log(req.body);
     db.one(`UPDATE item set active = 0 WHERE item_id = $1`, 
-      [productId])
+      [product_id])
         .then(data => {            
             res.status(200)
           .json({
@@ -105,10 +106,10 @@ function addProduct(req, res, next) {
   }
 
   function getProduct(req, res, next) {
-    var productId = req.body.productId; 
+    var product_id = req.body.product_id; 
     console.log(req.body);
     db.one(`SELECT * from item i, product p where p.item_id = $1 and p.item_id = i.item_id`, 
-      [productId])
+      [product_id])
         .then(data => {            //Product found
             res.status(200)
           .json({
@@ -128,10 +129,10 @@ function addProduct(req, res, next) {
   }
 
   function getProductsByCategory(req, res, next) {
-    var categoryId = req.body.categoryId; 
+    var category_id = req.body.category_id; 
     console.log(req.body);
     db.any(`select * from product p, item i WHERE i.item_id = p.item_id AND p.active = 1 AND category_id = $1`, 
-    [categoryId])
+    [category_id])
       .then(function (data) {
         res.status(200)
           .json({

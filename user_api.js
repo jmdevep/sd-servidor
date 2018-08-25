@@ -12,12 +12,8 @@ var options = {
 
 module.exports = {
   getAllUsers: getAllUsers,
-  emailAvailable: emailAvailable,
   registerUser: registerUser,
-  sendVerificationEmail: sendVerificationEmail,
-  getUserToken: getUserToken,
-  confirmEmail: confirmEmail,
-  validateUser: validateUser,
+
 };
 
 
@@ -67,9 +63,9 @@ function getAllUsers(req, res, next) {
     var token = uuidV4();
     console.log(user);
     console.log(token);
-    db.one(`INSERT INTO users (first_name, last_name, password, address, phone, company_name, nit, email, active, verification_token, created_at, location, department)
-     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, 0, $9, current_timestamp, $10, $11) RETURNING id`, 
-      [user.firstName, user.lastName, user.password, user.address, user.phone, user.companyName, user.nit, user.email, token, user.location, user.department])
+    db.one(`INSERT INTO users (full_name, nick_name, password, email, active, verification_token, created_at)
+     VALUES ($1, $2, $3, $4, 1, $5,current_timestamp, $6) RETURNING id`, 
+      [user.fullName, user.nickname, user.password, user.email, token])
         .then(data => {            
             res.status(200)
           .json({
@@ -90,7 +86,7 @@ function getAllUsers(req, res, next) {
         }); 
   }    
 
-  function sendVerificationEmail(req, res, next){
+ /* function sendVerificationEmail(req, res, next){
     console.log(req.body);
     var email = req.body.email;
     var name = req.body.name;
@@ -137,8 +133,8 @@ function getAllUsers(req, res, next) {
       } else {
         console.log('Email sent: ' + info.response);
       }
-    });  */
-  }
+    });  
+  } */
 
   function getUserToken(id) {
       return db.one('SELECT verification_token FROM users WHERE id = $1', id)

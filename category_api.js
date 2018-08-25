@@ -38,7 +38,7 @@ function addCategory(req, res, next) {
     var category = req.body; 
     console.log(category);
     db.one(`UPDATE category set name = '$1', description = '$2' WHERE category_id = $3`, 
-      [category.name, category.description, category.categoryId])
+      [category.name, category.description, category.category_id])
         .then(data => {            
             res.status(200)
           .json({
@@ -60,10 +60,10 @@ function addCategory(req, res, next) {
   }
 
   function deleteCategory(req, res, next) {
-    var categoryId = req.body.categoryId; 
-    console.log(categoryId);
+    var category_id = req.body.category_id; 
+    console.log(category_id);
     db.one(`UPDATE category set active = 0 WHERE category_id = $1`, 
-      [categoryId])
+      [category_id])
         .then(data => {            
             res.status(200)
           .json({
@@ -100,10 +100,10 @@ function addCategory(req, res, next) {
   }
 
   function getCategory(req, res, next) {
-    var categoryId = req.body.categoryId; 
+    var category_id = req.body.category_id; 
     console.log(category);
     db.one(`SELECT * from category where category_id = $1`, 
-      [categoryId])
+      [category_id])
         .then(data => {            //Category found
             res.status(200)
           .json({
