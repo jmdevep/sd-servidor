@@ -18,7 +18,7 @@ app.get('/', function (req, res){
 app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
 
 //User
-app.get('/api/user/get_users', user_api.getAllUsers);
-app.post('/api/user/register_user', user_api.registerUser);
+app.get('/api/user/get-users', user_api.getAllUsers);
+app.post('/api/user/register-user', user_api.registerUser);
 
 
