@@ -33,7 +33,7 @@ function getAllUsers(req, res, next) {
   }
 
   function emailAvailable(email) {
-    db.one("SELECT * FROM users WHERE email like '" + email + "'")
+    return db.one("SELECT * FROM users WHERE email like '" + email + "'")
         .then(user => { //USER FOUND - EMAIL NOT AVAILABLE
             // user found;
           return false;
@@ -45,7 +45,7 @@ function getAllUsers(req, res, next) {
   }    
 
   function nickAvailable(nickname) {
-    db.one("SELECT * FROM users WHERE nick_name like '" + nickname + "'")
+    return db.one("SELECT * FROM users WHERE nick_name like '" + nickname + "'")
         .then(user => { //USER FOUND - EMAIL NOT AVAILABLE
             // user found;
           return false;
