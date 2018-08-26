@@ -71,7 +71,7 @@ function getAllUsers(req, res, next) {
                .then(data => {            
                    res.status(200)
                  .json({
-                   user: data.id,
+                   user: JSON.parse(data),
                    message: 'USER_CREATED'
                  });
                })
