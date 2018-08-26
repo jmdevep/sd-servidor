@@ -32,29 +32,27 @@ function getAllUsers(req, res, next) {
       });
   }
 
-  function emailAvailable(req, res, next) {
-    var email = req.body.email;
-    console.log(req.body);
-    console.log(req.body.email);
+  function emailAvailable(email) {
     db.one("SELECT * FROM users WHERE email like '" + email + "'")
         .then(user => { //USER FOUND - EMAIL NOT AVAILABLE
             // user found;
-            res.status(200)
-          .json({
-            status: 'success',
-            //data: data,
-            message: 1
-          });             
-        })
+          return false;
+          })
         .catch(error => { //NOT FOUND - EMAIL AVAILABLE
             console.log(error); 
-            res.status(200)
-            .json({
-              status: 'success',
-             // data: data,
-              message: -1
-            });
-            // error;    
+            return true;    
+        });
+  }    
+
+  function nickAvailable(nickname) {
+    db.one("SELECT * FROM users WHERE nick_name like '" + nickname + "'")
+        .then(user => { //USER FOUND - EMAIL NOT AVAILABLE
+            // user found;
+          return false;
+          })
+        .catch(error => { //NOT FOUND - EMAIL AVAILABLE
+            console.log(error); 
+            return true;    
         });
   }    
 
@@ -63,27 +61,44 @@ function getAllUsers(req, res, next) {
     var token = uuidV4();
     console.log(user);
     console.log(token);
-    db.one(`INSERT INTO users (full_name, nick_name, password, email, active, verification_token, created_at)
-     VALUES ($1, $2, $3, $4, 1, $5,current_timestamp) RETURNING id`, 
-      [user.fullName, user.nickname, user.password, user.email, token])
-        .then(data => {            
+    emailAvailable.then(available => {
+      if(available){
+        nickAvailable.then(ver => {
+          if(ver){
+            db.one(`INSERT INTO users (full_name, nick_name, password, email, active, verification_token, created_at)
+            VALUES ($1, $2, $3, $4, 1, $5,current_timestamp) RETURNING id`, 
+             [user.fullName, user.nickname, user.password, user.email, token])
+               .then(data => {            
+                   res.status(200)
+                 .json({
+                   user: data,
+                   message: 'USER_CREATED'
+                 });
+               })
+               .catch(error => {
+                   console.log(error);
+                   res.status(200)
+                   .json({
+                     message: 'FAILED'
+                   });    
+               }); 
+          } else {
             res.status(200)
-          .json({
-            status: 'success',
-            id: data.id,
-            message: 1
-          });
-        })
-        .catch(error => {
-            console.log(error);
-            res.status(200)
-            .json({
-              status: 'failed',
-             // data: data,
-              message: -1
-            });
-            // error;    
-        }); 
+                 .json({
+                   message: 'NICKNAME_TAKEN'
+                 });
+          }
+        });
+
+      } else {
+        res.status(200)
+        .json({
+          message: 'EMAIL_TAKEN'
+        });
+      }
+    });
+
+    
   }    
 
  /* function sendVerificationEmail(req, res, next){
