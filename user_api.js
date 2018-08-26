@@ -61,9 +61,9 @@ function getAllUsers(req, res, next) {
     var token = uuidV4();
     console.log(user);
     console.log(token);
-    emailAvailable.then(available => {
+    emailAvailable(user.email).then(available => {
       if(available){
-        nickAvailable.then(ver => {
+        nickAvailable(user.nickname).then(ver => {
           if(ver){
             db.one(`INSERT INTO users (full_name, nick_name, password, email, active, verification_token, created_at)
             VALUES ($1, $2, $3, $4, 1, $5,current_timestamp) RETURNING id`, 
