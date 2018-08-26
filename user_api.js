@@ -64,7 +64,7 @@ function getAllUsers(req, res, next) {
     console.log(user);
     console.log(token);
     db.one(`INSERT INTO users (full_name, nick_name, password, email, active, verification_token, created_at)
-     VALUES ($1, $2, $3, $4, 1, $5,current_timestamp, $6) RETURNING id`, 
+     VALUES ($1, $2, $3, $4, 1, $5,current_timestamp) RETURNING id`, 
       [user.fullName, user.nickname, user.password, user.email, token])
         .then(data => {            
             res.status(200)
