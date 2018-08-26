@@ -13,7 +13,7 @@ var options = {
 module.exports = {
   getAllUsers: getAllUsers,
   registerUser: registerUser,
-
+  validateUser: validateUser,
 };
 
 
@@ -195,24 +195,22 @@ function getAllUsers(req, res, next) {
   }    
 
   function validateUser(req, res, next) {
-    var email = req.body.email;
+    var nickname = req.body.nickname;
     var password = req.body.password;
     console.log(req.body);
-    db.one("SELECT * FROM users WHERE email like '" + email + "' AND password like '" + password +"';")
+    db.one("select * from users where password like '" + password + "' AND (email like '"+ nickname +"' or nick_name like '"+ nickname +"');")
         .then(user => { //USER FOUND 
             res.status(200)
           .json({
-            status: 'success',
             data: user,
-            message: 1
+            message: "LOGIN_SUCCESS"
           });             
         })
         .catch(error => { //NOT FOUND - WRONG LOGIN
             console.log(error); 
             res.status(200)
             .json({
-              status: 'success',
-              message: -1
+              message: 'LOGIN_FAILED',
             });
    
         });
