@@ -195,8 +195,10 @@ function getAllUsers(req, res, next) {
   }    
 
   function validateUser(req, res, next) {
-    var nickname = req.body.nickname;
-    var password = req.body.password;
+    console.log(req);
+    console.log(req.query);
+    var nickname = req.query.nickname;
+    var password = req.query.password;
     console.log(req.body);
     db.one("select * from users where password like '" + password + "' AND (email like '"+ nickname +"' or nick_name like '"+ nickname +"');")
         .then(user => { //USER FOUND 
