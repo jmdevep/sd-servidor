@@ -202,7 +202,7 @@ function getAllUsers(req, res, next) {
           console.log("User: " + JSON.stringify(user));
             res.status(200)
           .json({
-            data: JSON.stringify(user),
+            user: JSON.stringify(user),
             message: "LOGIN_SUCCESS"
           });             
         })
