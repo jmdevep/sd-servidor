@@ -201,8 +201,7 @@ function getAllUsers(req, res, next) {
     var password = req.query.password;
     console.log(req.body);
     db.one("select * from users where password like '" + password + "' AND (email like '"+ nickname +"' or nick_name like '"+ nickname +"');")
-        .then(user => { //USER FOUND 
-          console.log(json(user));
+        .then(user => { //USER FOUND
           console.log(user);
             res.status(200)
           .json({
